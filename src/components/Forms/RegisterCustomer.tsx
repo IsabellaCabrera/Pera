@@ -1,58 +1,12 @@
+import { useForm } from "../../hooks/useForm";
 import { Link } from "react-router";
 import { Button } from "../Button";
 import { Input } from "../Input";
-import { useNavigate } from "react-router";
-import { useState } from "react";
-import { useForm } from "../../hooks/useForm";
-import { useDispatch } from "react-redux";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "../../services/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
-import { setError, setUser } from "../../redux/slices/authSlice";
-
-const initialSignUpForm = {
-  name: "",
-  email: "",
-  password: "",
-  role: "customer",
-};
+import { useSignup } from "../../hooks/useSignup";
 
 export const RegisterCustomer = () => {
-  const [signupForm, setSignupForm] = useState(initialSignUpForm);
+  const { signupForm, setSignupForm, handleSubmit } = useSignup();
   const { handleForm } = useForm<typeof signupForm>();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(signupForm);
-    try {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        signupForm.email,
-        signupForm.password
-      );
-      await updateProfile(userCredentials.user, {
-        displayName: signupForm.name,
-      });
-
-      const userRef = doc(db, "users", userCredentials.user.uid);
-      const newUser = {
-        name: signupForm.name,
-        email: signupForm.email,
-        role: signupForm.role,
-        profileImg: "",
-      };
-      await setDoc(userRef, newUser);
-      dispatch(setUser(newUser));
-      navigate("/customer/home");
-    } catch (error) {
-      console.error("Error creating user", error);
-
-      dispatch(setError("Error SignUp"));
-    }
-    setSignupForm(initialSignUpForm);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 ">
