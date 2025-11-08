@@ -1,6 +1,6 @@
 import type React from "react";
 
-export type ButtonProps = {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   secondary?: boolean;
   children: React.ReactNode;
   disabled?: boolean;

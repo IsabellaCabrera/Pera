@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { LandingNavMenu } from "./LandingNavMenu";
 import { useEffect, useState } from "react";
 import { UserNavMenu } from "./UserNavMenu";
@@ -8,7 +8,7 @@ export const NavBar = () => {
 
   const location = useLocation();
 
-   useEffect(() => {
+  useEffect(() => {
     //localhost:5173/
     //localhost:5173/customer
     if (location.pathname === "/") {
@@ -20,9 +20,7 @@ export const NavBar = () => {
 
   return (
     <header className="flex items-center justify-between px-10 py-3 bg-mainWhite rounded-b-3xl border-b border-blue">
-      <Link to={"/"}>
-        <img src="/public/Pera-morado.svg" alt="Pera Logo" />
-      </Link>
+      <img src="/public/Pera-morado.svg" alt="Pera Logo" />
       <nav>
         <ul className="flex items-center gap-2">
           {page === "user" ? <UserNavMenu /> : <LandingNavMenu />}

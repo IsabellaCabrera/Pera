@@ -5,6 +5,7 @@ export const Button = ({
   children,
   secondary,
   onClick,
+  ...props
 }: ButtonProps) => {
   const primaryStyle = "bg-morado text-white hover:opacity-90";
   const secondaryStyle =
@@ -13,6 +14,7 @@ export const Button = ({
 
   return (
     <button
+      {...props}
       onClick={onClick}
       disabled={disabled}
       className={` cursor-pointer

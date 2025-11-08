@@ -1,5 +1,7 @@
-import { useState } from "react";
 import { NavItems } from "./NavItems";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
+import { Link } from "react-router";
 
 // Esto son los links que lleva el navbar del user pero del costumer
 const customerNavItems = [
@@ -36,17 +38,24 @@ const sellerNavItems = [
 ];
 
 export const UserNavMenu = () => {
-  const [userRole] = useState<"customer" | "seller">("customer");
+  const user = useSelector((state: RootState) => state.auth.user);
 
   return (
     <>
-      {userRole === "customer"
+      {user?.role === "customer"
         ? customerNavItems.map(({ id, link, label }) => (
             <NavItems key={id} link={link} label={label} />
           ))
         : sellerNavItems.map(({ id, link, label }) => (
             <NavItems key={id} link={link} label={label} />
           ))}
+      <Link to={"/profile"}>
+        <img
+          className="w-8 h-8 rounded-full"
+          src={user?.profileImg || "/avatar.png"}
+          alt="Profile Image"
+        />
+      </Link>
     </>
   );
 };

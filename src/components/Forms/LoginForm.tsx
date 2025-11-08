@@ -1,18 +1,16 @@
-import { Link, useNavigate } from "react-router";
+import { useForm } from "../../hooks/useForm";
+import { useLogin } from "../../hooks/useLogin";
 import { Button } from "../Button";
+import { Link } from "react-router";
 import { Input } from "../Input";
 
 export const LoginForm = () => {
-  const navigate = useNavigate();
-
-  const handleForm = () => {
-    navigate("/customer/home");
-  };
+  const { loginForm, setLoginForm, handleSubmit } = useLogin();
+  const { handleForm } = useForm<typeof loginForm>();
 
   return (
-    <form className="flex flex-col gap-6 ">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <Link to={"/"}>
-        {" "}
         <img src="/PeraLogo-amarillo.svg" alt="Pera logo" />
       </Link>
       <div>
@@ -26,18 +24,26 @@ export const LoginForm = () => {
           type="email"
           name="email"
           placeholder="Enter your email"
+          autoComplete="current-email"
+          value={loginForm.email}
+          onChange={(e) => handleForm(e, setLoginForm, loginForm)}
+          required
         />
         <Input
           label="Password"
           type="password"
           name="password"
           placeholder="Enter your password"
+          autoComplete="current-password"
+          value={loginForm.password}
+          onChange={(e) => handleForm(e, setLoginForm, loginForm)}
+          required
         />
         <p className="text-morado underline cursor-pointer text-sm">
           Forgot password?
         </p>
       </div>
-      <Button onClick={handleForm}>Log In</Button>
+      <Button type="submit">Log In</Button>
       <p className="flex items-center gap-2">
         Don't have an account?
         <span className="text-morado underline">
