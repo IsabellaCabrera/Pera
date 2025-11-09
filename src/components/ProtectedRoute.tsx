@@ -19,7 +19,7 @@ export const ProtectedRoute = ({ requiredRole }: ProtectedRouteProps) => {
 
   if (requiredRole && user.role !== requiredRole) {
     return user.role === "seller" ? (
-      <Navigate to="/seller/home" replace />
+      <Navigate to="/seller/analytics" replace />
     ) : (
       <Navigate to="/customer/home" replace />
     );
