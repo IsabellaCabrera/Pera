@@ -53,7 +53,7 @@ export const Checkout = () => {
   return (
     <section className="py-9 px-12">
       <div className="mb-8">
-        <Button onClick={()=> navigate('/customer/home')} secondary>Go back</Button>
+        <Button onClick={()=> navigate(-1)} secondary>Go back</Button>
       </div>
 
       <img src="/Pera-morado.svg" alt="Loopa Logo" className="mb-4" />
