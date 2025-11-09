@@ -31,7 +31,7 @@ export const RestaurantNearYou = ({
               <img
                 src={restaurantimg}
                 alt={restaurant}
-                className="w-10 h-10 rounded-full"
+                className="w-10 h-10 object-cover object-center rounded-full"
               />
               <p className="text-gray-800 font-semibold text-base">
                 {restaurant}
