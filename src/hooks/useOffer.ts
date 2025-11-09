@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import { useState } from "react";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../services/firebaseConfig";
+import { db, storage } from "../services/firebaseConfig";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const initialOfferForm = {
   offerTitle: "",
@@ -19,6 +20,10 @@ export const useOffer = () => {
   const [offerForm, setOfferForm] = useState(initialOfferForm);
   const user = useSelector((state: RootState) => state.auth.user);
 
+    const handleFileChange = (file: File | null) => {
+    setOfferForm((prev) => ({ ...prev, offerImg: file }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -28,18 +33,18 @@ export const useOffer = () => {
     }
 
     try {
-      //   let imageUrl = "";
-      //   if (offerForm.offerImg) {
-      //     const storageRef = ref(
-      //       storage,
-      //       `offers/${user.uid}/${offerForm.offerImg.name}`
-      //     );
-      //     await uploadBytes(storageRef, offerForm.offerImg);
-      //     imageUrl = await getDownloadURL(storageRef);
-      //   }
+        let imageUrl = "";
+        if (offerForm.offerImg) {
+          const storageRef = ref(
+            storage,
+            `offers/${user.uid}/${offerForm.offerImg.name}`
+          );
+          await uploadBytes(storageRef, offerForm.offerImg);
+          imageUrl = await getDownloadURL(storageRef);
+        }
 
       const newOffer = {
-        offerImg: "",
+        offerImg: imageUrl,
         offerTitle: offerForm.offerTitle,
         description: offerForm.description,
         originalPrice: Number(offerForm.originalPrice),
@@ -66,6 +71,7 @@ export const useOffer = () => {
   return {
     offerForm,
     setOfferForm,
+    handleFileChange,
     handleSubmit,
   };
 };

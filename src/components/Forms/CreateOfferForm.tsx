@@ -2,27 +2,21 @@ import { Input } from "../Input";
 import { useForm } from "../../hooks/useForm";
 import { Button } from "../Button";
 import { useOffer } from "../../hooks/useOffer";
+import { UploadFile } from "../UploadFile";
 
 export const CreateOfferForm = () => {
-  const { offerForm, setOfferForm, handleSubmit } = useOffer();
+  const { offerForm, setOfferForm, handleFileChange, handleSubmit } = useOffer();
   const { handleForm } = useForm<typeof offerForm>();
+
+
 
   return (
     <form
       className="flex flex-col lg:flex-row items-center justify-between h-dvh"
       onSubmit={handleSubmit}
     >
-      <div className="bg-azul h-full w-full flex-1">
-        <label>Offer Image</label>
-        {/* <input
-          type="file"
-          onChange={(e) =>
-            setOfferForm((prev) => ({
-              ...prev,
-              offerImg: e.target.files ? e.target.files[0] : null,
-            }))
-          }
-        /> */}
+      <div className="bg-azul flex items-center justify-center h-full w-full flex-1">
+        <UploadFile onChange={handleFileChange} />
       </div>
 
       <div className="w-full lg:w-1/2 p-10 flex flex-col gap-6">
