@@ -5,7 +5,7 @@ export const Delete = ({ id, onDelete }: DeleteProps) => {
   return (
     <button
       onClick={() => onDelete(id)}
-      className="flex items-center justify-center w-6 h-6 rounded-full bg-[#595C5921] text-gray-700 hover:bg-gray-300 transition"
+      className="cursor-pointer flex items-center justify-center w-6 h-6 rounded-full bg-[#595C5921] text-black hover:bg-gray-300 transition"
     >
       <IoMdClose size={16} />
     </button>

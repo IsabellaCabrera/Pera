@@ -17,7 +17,7 @@ export const Button = ({
       {...props}
       onClick={onClick}
       disabled={disabled}
-      className={` cursor-pointer
+      className={` cursor-pointer disabled:cursor-default
         text-nowrap px-5 py-3 md:min-w-44 rounded-md transition
         ${disabled ? disabledStyle : secondary ? secondaryStyle : primaryStyle}
       `}
