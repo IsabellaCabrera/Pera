@@ -19,8 +19,7 @@ export type RestaurantCardProps = {
   img: string;
   restaurant: string | null;
   whiteVariant?: boolean;
-
-}
+};
 
 export type InformativeCardProps = {
   logo: string;
@@ -47,16 +46,8 @@ export interface ShoppingCardProps {
   delete: (id: string | number) => void;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+export interface AvailabilityProps {
+  day: string;
+  selectedHours: string[];
+  onChange: (hours: string[]) => void;
+}
