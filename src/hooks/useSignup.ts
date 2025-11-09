@@ -131,7 +131,7 @@ export const useSellerSignup = () => {
         email: registerSellerForm.email,
         phone: registerSellerForm.phone,
         nit: registerSellerForm.nit,
-        profileImge: "",
+        profileImg: "",
         category: registerSellerForm.category,
         address: registerSellerForm.address,
         role: "seller",
