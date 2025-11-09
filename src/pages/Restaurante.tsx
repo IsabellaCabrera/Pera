@@ -34,9 +34,7 @@ const checkboxOptions = [
 ];
 
 export const Restaurante = () => {
-  const restaurant = useSelector(
-    (state: RootState) => state.products.restaurant
-  );
+  const restaurant = useSelector((state: RootState) => state.products.restaurant);
   const dispatch = useDispatch();
   const [selected, setSelected] = useState<string[]>([]);
 

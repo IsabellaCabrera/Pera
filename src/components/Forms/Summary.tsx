@@ -17,20 +17,21 @@ export const Summary = ({
     let donationAmount = 0;
 
     if (selectedDonation === "2") {
-      donationAmount = 200;
+      donationAmount = 2;
     } else if (selectedDonation === "5") {
-      donationAmount = 500;
+      donationAmount = 5;
     } else if (selectedDonation === "round") {
       const rounded = Math.ceil(subtotal / 100) * 100;
       donationAmount = rounded - subtotal;
     }
 
-    return subtotal + donationAmount;
+return  Number(subtotal + donationAmount).toFixed(2)
+
   };
 
-  const formatPrice = (price: number): string => {
-    return `$${(price / 100).toLocaleString()}`;
-  };
+  // const formatPrice = (price: number): string => {
+  //   return `$${(price / 100).toLocaleString()}`;
+  // };
 
   const donationOptions = [
     { value: "2", label: "$2" },
@@ -50,7 +51,7 @@ export const Summary = ({
       {/* Subtotal */}
       <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
         <span className="text-gray-600 font-semibold">Subtotal</span>
-        <span className="font-semibold text-lg">{formatPrice(subtotal)}</span>
+        <span className="font-semibold text-lg">${subtotal}</span>
       </div>
 
       {/* Donation Section - Ahora usando RadioGroup */}
@@ -76,7 +77,7 @@ export const Summary = ({
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold text-morado">Total</span>
           <span className="text-xl font-bold">
-            {formatPrice(calculateTotal())}
+            ${calculateTotal()}
           </span>
         </div>
       </div>
