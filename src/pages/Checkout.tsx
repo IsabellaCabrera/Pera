@@ -5,7 +5,7 @@ import { Summary } from "../components/Forms/Summary";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
-import { deleteFromCart } from "../redux/slices/productsSlice";
+import { clearCart, deleteFromCart } from "../redux/slices/productsSlice";
 
 export const Checkout = () => {
   const [selectedDonation, setSelectedDonation] = useState("2");
@@ -31,6 +31,7 @@ export const Checkout = () => {
   };
 
   const handlePay = () => {
+    dispatch(clearCart())
     console.log("Processing payment...", { selectedPayment, selectedDonation });
   };
 
