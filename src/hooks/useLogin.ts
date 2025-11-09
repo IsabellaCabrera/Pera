@@ -25,13 +25,10 @@ export const useLogin = () => {
         loginForm.email,
         loginForm.password
       );
-      console.log(response.user.uid);
-      console.log(response.user);
 
       const userDoc = await getDoc(doc(db, "users", response.user.uid));
       if (userDoc.exists()) {
         const user = userDoc.data();
-        console.log(userDoc.data());
         dispatch(
           setUser({
             uid: response.user.uid,
