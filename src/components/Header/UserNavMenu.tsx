@@ -30,11 +30,7 @@ const sellerNavItems = [
     link: "seller/analytics",
     label: "Analytics",
   },
-  {
-    id: crypto.randomUUID(),
-    link: "seller/offers",
-    label: "Offers",
-  },
+
   {
     id: crypto.randomUUID(),
     link: "seller/orders",
