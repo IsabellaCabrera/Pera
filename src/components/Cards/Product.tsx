@@ -1,11 +1,22 @@
-import { useNavigate } from "react-router";
 import { Button } from "../Button";
 import type { Offer } from "../../types/products";
+import { useDispatch, useSelector } from "react-redux";
+import { setCart } from "../../redux/slices/productsSlice";
+import type { RootState } from "../../redux/store";
 
 export const ProductCard = ({ offer }: { offer: Offer }) => {
-  const navigate = useNavigate();
+  const cart = useSelector((state: RootState) => state.products.cart);
+  const dispatch = useDispatch();
 
-  const savedMoney = offer.originalPrice - offer.peraPrice;
+  const savedMoney = Number((offer.originalPrice - offer.peraPrice).toFixed(2));
+
+  const isInCart = cart.some(
+    (product) => product.offerTitle === offer.offerTitle
+  );
+
+  const handlSaveToCart = () => {
+    dispatch(setCart(offer));
+  };
 
   return (
     <article className="flex flex-col gap-6 p-4 bg-white rounded-2xl">
@@ -23,7 +34,9 @@ export const ProductCard = ({ offer }: { offer: Offer }) => {
           </span>
         </p>
       </div>
-      <Button onClick={() => navigate("/customer/checkout")}>Add</Button>
+      <Button disabled={isInCart} onClick={handlSaveToCart}>
+        {isInCart ? "Already Added" : "Add"}
+      </Button>
     </article>
   );
 };
