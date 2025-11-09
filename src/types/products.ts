@@ -15,7 +15,7 @@ export interface Offer {
 export interface InitialState {
   restaurants: UserData[];
   restaurant: UserData;
-  cart: [];
+  cart: Offer[];
   orders: [];
   offers: [];
 }
