@@ -7,10 +7,12 @@
   --color-tertiary: #cdcdcd;
   --color-mainWhite: #FAF6F0;
   --color-azul: #9BBBFC; 
+  --color-gray: #E9E7E7;
+
   --color-Darkgray500: #121712;
   --color-Darkgray400: #292E29;
   --color-Darkgray300: #585C58;
   --color-Darkgray200: #929292;
-  --color-LightGray100: #F2F2F2;
+  --color-LightGray100: #F2F0F0;
 
 }
