@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavBar } from "../components/Header/NavBar";
 import { Input } from "../components/Input";
 import { Checkbox } from "../components/Tags/Checkbox";
@@ -8,6 +8,11 @@ import { RestaurantNearYou } from "../components/Cards/RestaurantNearYou";
 import { Button } from "../components/Button";
 
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../services/firebaseConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { setRestaurants } from "../redux/slices/productsSlice";
+import type { RootState } from "../redux/store";
 
 const restaurant = [
   {
@@ -64,89 +69,39 @@ const checkboxOptions = [
   { id: "kebab", label: "Kebab", img: "/kebab.svg" },
 ];
 
-const restaurantNewYouInfo = [
-  {
-    id: crypto.randomUUID(),
-    img: "/mclogo.webp",
-    restaurantimg: "/mclogo.webp",
-    restaurant: "McDonalds",
-    rating: 4.5,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/kfclogo.webp",
-    restaurantimg: "/kfclogo.webp",
-    restaurant: "KFC",
-    rating: 4.0,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/elcorrallogo.webp",
-    restaurantimg: "/elcorrallogo.webp",
-    restaurant: "El Corral",
-    rating: 4.8,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/frisbylogo.webp",
-    restaurantimg: "/frisbyrestaurant.webp",
-    restaurant: "Frisby",
-    rating: 4.3,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/mclogo.webp",
-    restaurantimg: "/mclogo.webp",
-    restaurant: "McDonalds",
-    rating: 4.5,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/kfclogo.webp",
-    restaurantimg: "/kfclogo.webp",
-    restaurant: "KFC",
-    rating: 4.0,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/elcorrallogo.webp",
-    restaurantimg: "/elcorrallogo.webp",
-    restaurant: "El Corral",
-    rating: 4.8,
-    price: "$6.99",
-    save: "$6",
-  },
-  {
-    id: crypto.randomUUID(),
-    img: "/frisbylogo.webp",
-    restaurantimg: "/frisbylogo.webp",
-    restaurant: "Frisby",
-    rating: 4.3,
-    price: "$6.99",
-    save: "$6",
-  },
-];
-
 export const Home = () => {
   const [selected, setSelected] = useState<string[]>([]);
+  const restaurants = useSelector(
+    (state: RootState) => state.products.restaurants
+  );
+  const dispatch = useDispatch();
 
   const handleChange = (id: string, isChecked: boolean) => {
     setSelected((prev) =>
       isChecked ? [...prev, id] : prev.filter((item) => item !== id)
     );
   };
+
+  useEffect(() => {
+    if (restaurants.length > 0) return;
+    const getResturants = async () => {
+      try {
+        const restaurantsQuery = query(
+          collection(db, "users"),
+          where("role", "==", "seller")
+        );
+        const querySnapshot = await getDocs(restaurantsQuery);
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          dispatch(setRestaurants(data));
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getResturants();
+  }, [dispatch, restaurants.length]);
 
   return (
     <>
@@ -193,7 +148,12 @@ export const Home = () => {
         <h2 className="font-bold text-xl text-white">Top picks</h2>
         <div className="grid grid-flow-col gap-4 pt-2 mt-3 overflow-x-auto scrollbar-hide">
           {restaurant.map(({ id, img, restaurant }) => (
-            <RestaurantCard key={id} img={img} restaurant={restaurant} whiteVariant/>
+            <RestaurantCard
+              key={id}
+              img={img}
+              restaurant={restaurant}
+              whiteVariant
+            />
           ))}
           <SlArrowLeft className="absolute top-1/2 left-4 -translate-y-1/2 text-white/30 cursor-pointer w-[32px] h-[32px]" />
           <SlArrowRight className="absolute top-1/2 right-4 -translate-y-1/2 text-white/30 cursor-pointer w-[32px] h-[32px]" />
@@ -205,18 +165,20 @@ export const Home = () => {
           Restaurants near you!
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 mt-3">
-          {restaurantNewYouInfo.map(
-            ({ id, img, restaurantimg, restaurant, rating, price, save }) => (
+          {restaurants.length === 0 ? (
+            <p>Loading...</p>
+          ) : (
+            restaurants.map(({ uid, name, profileImg }) => (
               <RestaurantNearYou
-                key={id}
-                img={img}
-                restaurantimg={restaurantimg}
-                restaurant={restaurant}
-                ratingProps={{ value: rating }}
-                price={price}
-                save={save}
+                key={uid}
+                restaurant={name || "Restaurant"}
+                img={profileImg || "/defaultRestaurantImg.webp"}
+                restaurantimg={profileImg || "/defaultRestaurantImg.webp"}
+                ratingProps={{ value: 4.0 }}
+                price={"$6.99"}
+                save={"$6"}
               />
-            )
+            ))
           )}
         </div>
         <div className="flex justify-center mt-8">
