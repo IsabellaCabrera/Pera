@@ -27,14 +27,19 @@ const customerNavItems = [
 const sellerNavItems = [
   {
     id: crypto.randomUUID(),
-    link: "seller/home",
-    label: "Home",
+    link: "seller/analytics",
+    label: "Analytics",
   },
   {
     id: crypto.randomUUID(),
-    link: "seller/link",
-    label: "Seller Link",
+    link: "seller/offers",
+    label: "Offers",
   },
+  {
+    id: crypto.randomUUID(),
+    link: "seller/orders",
+    label: "Orders",
+  }
 ];
 
 export const UserNavMenu = () => {

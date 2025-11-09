@@ -40,7 +40,12 @@ export const useSignup = () => {
         profileImg: "",
       };
       await setDoc(userRef, newUser);
-      dispatch(setUser(newUser));
+      dispatch(
+        setUser({
+          uid: userCredentials.user.uid,
+          ...newUser,
+        })
+      );
       navigate("/customer/home");
     } catch (error) {
       console.error("Error creating user", error);
@@ -132,16 +137,21 @@ export const useSellerSignup = () => {
         role: "seller",
         availability: openDays,
       };
-      await setDoc(userRef, newUser);
+      await setDoc(
+        userRef,
+        setUser({
+          uid: userCredentials.user.uid,
+          ...newUser,
+        })
+      );
 
-      dispatch(setUser(newUser))
+      dispatch(setUser(newUser));
       navigate("/seller/analytics");
 
       console.log("✅ Seller registrado:", {
         ...registerSellerForm,
         availability: openDays,
       });
-
     } catch (error) {
       console.error("Error creando seller:", error);
     }

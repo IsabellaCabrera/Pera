@@ -25,7 +25,13 @@ export const useAuthListener = () => {
           (docSnap) => {
             if (docSnap.exists()) {
               const userData = docSnap.data();
-              dispatch(setUser({ ...userData }));
+
+              dispatch(
+                setUser({
+                  uid: firebaseUser.uid,
+                  ...userData,
+                })
+              );
             } else {
               dispatch(setError("El usuario no tiene datos en Firestore"));
             }

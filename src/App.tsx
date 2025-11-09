@@ -11,10 +11,11 @@ import { Checkout } from "./pages/Checkout";
 import { useAuthListener } from "./hooks/useAuth";
 import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Analytics } from "./pages/Analytics";
+import { CreateOffer } from "./pages/CreateOffer";
 
 function App() {
   useAuthListener();
-
 
   return (
     <>
@@ -30,8 +31,8 @@ function App() {
           {/* Seller */}
 
           <Route element={<ProtectedRoute requiredRole="seller" />}>
-            <Route path="/seller/analytics" element={<div>Seller Home</div>} />
-            <Route path="/seller/offer" element={<div>Seller Offers</div>} />
+            <Route path="/seller/analytics" element={<Analytics />} />
+            <Route path="/seller/offer/createoffer" element={<CreateOffer />} />
             <Route path="/seller/settings" element={<div>Settings</div>} />
           </Route>
 

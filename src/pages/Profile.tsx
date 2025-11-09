@@ -26,6 +26,7 @@ export const Profile = () => {
   return (
     <main>
       <h1>Profile : {user?.name}</h1>
+      <p>uid : {user?.uid}</p>
       <Button onClick={logout}>Log out</Button>
     </main>
   );
