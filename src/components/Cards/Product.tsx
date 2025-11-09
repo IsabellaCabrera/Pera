@@ -1,18 +1,29 @@
-import { useNavigate } from "react-router"
-import { Button } from "../Button"
+import { useNavigate } from "react-router";
+import { Button } from "../Button";
+import type { Offer } from "../../types/products";
 
-export const ProductCard = () => {
-    const navigate = useNavigate()
+export const ProductCard = ({ offer }: { offer: Offer }) => {
+  const navigate = useNavigate();
 
-    
-    return (
-        <article className="flex flex-col gap-6 p-4 bg-white rounded-2xl">
-            <img className="h-[140px] w-auto object-cover rounded-lg " src="/mclogo.webp" alt="" />
-            <div>
-                <h3 className="font-bold">Product Name</h3>
-                <p className="text-morado font-bold text-2xl flex items-center gap-1">$6.99<span className="text-black/30 font-normal text-xl">(Save $6)</span></p>
-            </div>
-            <Button onClick={()=> navigate("/customer/checkout")}>Add</Button>
-        </article>
-    )
-}
+  const savedMoney = offer.originalPrice - offer.peraPrice;
+
+  return (
+    <article className="flex flex-col gap-6 p-4 bg-white rounded-2xl">
+      <img
+        className="h-[140px] w-auto object-cover rounded-lg "
+        src={offer.offerImg || "/defaultFoodImg.webp"}
+        alt={offer.offerTitle}
+      />
+      <div>
+        <h3 className="font-bold">{offer.offerTitle}</h3>
+        <p className="text-morado font-bold text-2xl flex items-center gap-1">
+          ${offer.peraPrice}
+          <span className="text-black/30 font-normal text-xl">
+            (Save ${savedMoney})
+          </span>
+        </p>
+      </div>
+      <Button onClick={() => navigate("/customer/checkout")}>Add</Button>
+    </article>
+  );
+};

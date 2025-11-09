@@ -1,3 +1,4 @@
+import type { Offer } from "./products";
 import type { AvailabilityItem } from "./signup";
 
 export interface Product {
@@ -16,18 +17,19 @@ export interface Order {
 }
 
 export interface UserData {
-  uid? : string;
+  uid?: string;
   email?: string;
   name?: string;
   phone?: string;
   nit?: string;
   category?: string;
-  adress?: string;
+  address?: string;
   profileImg?: string;
   role?: string;
   availability?: AvailabilityItem[];
   products?: Product[];
   orders?: Order[];
+  offers?: Offer[];
 }
 
 export interface AuthState {

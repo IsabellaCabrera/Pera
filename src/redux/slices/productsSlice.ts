@@ -4,6 +4,7 @@ import type { UserData } from "../../types/auth";
 
 const initialState: InitialState = {
   restaurants: [],
+  restaurant: {},
   cart: [],
   orders: [],
   offers: [],
@@ -16,8 +17,11 @@ const productsSlice = createSlice({
     setRestaurants: (state, action: PayloadAction<UserData>) => {
       state.restaurants = [...state.restaurants, action.payload];
     },
+    setRestaurant: (state, action: PayloadAction<UserData>) => {
+      state.restaurant = action.payload;
+    },
   },
 });
 
-export const { setRestaurants } = productsSlice.actions;
+export const { setRestaurants, setRestaurant } = productsSlice.actions;
 export default productsSlice.reducer;

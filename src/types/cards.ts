@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 import type { Rating } from "../components/Tags/Rating";
 import type { Add } from "../components/Add";
+import type { UserData } from "./auth";
 
 export type LoopaCardProps = {
   img: string;
@@ -27,13 +28,16 @@ export type InformativeCardProps = {
   background: string;
 };
 
+// export type RestaurantNearYouCardProps = {
+//   img: string;
+//   restaurantimg: string;
+//   restaurant: string;
+//   ratingProps: ComponentProps<typeof Rating>;
+//   price: string;
+//   save: string;
+// };
 export type RestaurantNearYouCardProps = {
-  img: string;
-  restaurantimg: string;
-  restaurant: string;
-  ratingProps: ComponentProps<typeof Rating>;
-  price: string;
-  save: string;
+ restaurant : UserData
 };
 
 export interface ShoppingCardProps {

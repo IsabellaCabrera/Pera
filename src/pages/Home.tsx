@@ -168,16 +168,8 @@ export const Home = () => {
           {restaurants.length === 0 ? (
             <p>Loading...</p>
           ) : (
-            restaurants.map(({ uid, name, profileImg }) => (
-              <RestaurantNearYou
-                key={uid}
-                restaurant={name || "Restaurant"}
-                img={profileImg || "/defaultRestaurantImg.webp"}
-                restaurantimg={profileImg || "/defaultRestaurantImg.webp"}
-                ratingProps={{ value: 4.0 }}
-                price={"$6.99"}
-                save={"$6"}
-              />
+            restaurants.map((restaurant) => (
+              <RestaurantNearYou key={restaurant.name} restaurant={restaurant} />
             ))
           )}
         </div>
