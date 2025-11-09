@@ -104,59 +104,51 @@ export const useSellerSignup = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!registerSellerForm.availability.some((day) => day.hours.length > 0))
-      return;
+  if (!registerSellerForm.availability.some((day) => day.hours.length > 0))
+    return;
 
-    const openDays = registerSellerForm.availability.filter(
-      (d) => d.hours.length > 0
+  const openDays = registerSellerForm.availability.filter(
+    (d) => d.hours.length > 0
+  );
+
+  try {
+    const userCredentials = await createUserWithEmailAndPassword(
+      auth,
+      registerSellerForm.email,
+      registerSellerForm.password
     );
 
-    try {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        registerSellerForm.email,
-        registerSellerForm.password
-      );
+    await updateProfile(userCredentials.user, {
+      displayName: registerSellerForm.businessName,
+    });
 
-      await updateProfile(userCredentials.user, {
-        displayName: registerSellerForm.businessName,
-      });
+    const userRef = doc(db, "users", userCredentials.user.uid);
+    const newUser = {
+      name: registerSellerForm.businessName,
+      email: registerSellerForm.email,
+      phone: registerSellerForm.phone,
+      nit: registerSellerForm.nit,
+      profileImg: "",
+      category: registerSellerForm.category,
+      address: registerSellerForm.address,
+      role: "seller",
+      availability: openDays,
+    };
 
-      const userRef = doc(db, "users", userCredentials.user.uid);
-      const newUser = {
-        name: registerSellerForm.businessName,
-        email: registerSellerForm.email,
-        phone: registerSellerForm.phone,
-        nit: registerSellerForm.nit,
-        profileImg: "",
-        category: registerSellerForm.category,
-        address: registerSellerForm.address,
-        role: "seller",
-        availability: openDays,
-      };
-      await setDoc(
-        userRef,
-        setUser({
-          uid: userCredentials.user.uid,
-          ...newUser,
-        })
-      );
+    await setDoc(userRef, newUser);
 
-      dispatch(setUser(newUser));
-      navigate("/seller/analytics");
+    dispatch(setUser({ uid: userCredentials.user.uid, ...newUser }));
 
-      console.log("✅ Seller registrado:", {
-        ...registerSellerForm,
-        availability: openDays,
-      });
-    } catch (error) {
-      console.error("Error creando seller:", error);
-    }
-  };
+    navigate("/seller/analytics");
 
+    console.log("✅ Seller registrado:", newUser);
+  } catch (error) {
+    console.error("❌ Error creando seller:", error);
+  }
+};
   return {
     step,
     handleNext,
