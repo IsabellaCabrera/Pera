@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { NavBar } from "../components/Header/NavBar";
 import { EditCustomerProfileForm } from "../components/Forms/EditCustomerProfile";
 import type { UserData } from "../types/auth";
+import { clearCart } from "../redux/slices/productsSlice";
 
 export const Profile = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export const Profile = () => {
     try {
       await signOut(auth);
       dispatch(clearUser());
+      dispatch(clearCart())
       navigate("/");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
