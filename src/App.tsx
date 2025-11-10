@@ -13,6 +13,7 @@ import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Analytics } from "./pages/Analytics";
 import { CreateOffer } from "./pages/CreateOffer";
+import { HistorySavings } from "./pages/HistorySavings";
 
 function App() {
   useAuthListener();
@@ -24,7 +25,6 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/signup/customer" element={<SignUpCustomer />} />
           <Route path="/signup/seller" element={<SignUpSeller />} />
 
@@ -51,6 +51,11 @@ function App() {
             <Route path="/customer/:restaurant" element={<Restaurante />} />
             <Route path="/customer/checkout" element={<Checkout />} />
             <Route path="/customer/:order/pickup" element={<Pickup />} />
+            <Route
+              path="/customer/history&savings"
+              element={<HistorySavings />}
+            />
+          <Route path="/profile" element={<Profile />} />
           </Route>
 
           {/* <Route path="/customer/home" element={<Home />} />
@@ -58,7 +63,6 @@ function App() {
           <Route path="/customer/checkout" element={<Checkout />} />
           <Route path="/customer/:order/confirmation" />
           <Route path="/customer/:order/pickup" element={<Pickup />} />
-          <Route path="/customer/history&savings" />
           <Route path="/customer/settings" /> */}
         </Routes>
       </Router>
