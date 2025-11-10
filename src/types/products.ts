@@ -1,6 +1,7 @@
 import type { UserData } from "./auth";
 
 export interface Offer {
+  restaurantId: string | number;
   offerImg: string;
   offerTitle: string;
   description: string;
@@ -10,7 +11,6 @@ export interface Offer {
   windowEnd: string;
   windowStart: string;
 }
-
 
 export interface InitialState {
   restaurants: UserData[];

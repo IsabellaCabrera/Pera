@@ -28,7 +28,7 @@ export interface UserData {
   role?: string;
   availability?: AvailabilityItem[];
   products?: Product[];
-  orders?: Order[];
+  orders?: Offer[];
   offers?: Offer[];
 }
 

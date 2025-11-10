@@ -25,8 +25,7 @@ export const Summary = ({
       donationAmount = rounded - subtotal;
     }
 
-return  Number(subtotal + donationAmount).toFixed(2)
-
+    return Number(subtotal + donationAmount).toFixed(2);
   };
 
   // const formatPrice = (price: number): string => {
@@ -76,14 +75,13 @@ return  Number(subtotal + donationAmount).toFixed(2)
       <div className="border-t border-gray-200 pt-4 mb-6">
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold text-morado">Total</span>
-          <span className="text-xl font-bold">
-            ${calculateTotal()}
-          </span>
+          <span className="text-xl font-bold">${calculateTotal()}</span>
         </div>
       </div>
 
       {/* Pay Button */}
       <Button
+        disabled={subtotal === 0}
         onClick={() => {
           onPay();
           navigate("/customer/order/pickup");

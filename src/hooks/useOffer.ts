@@ -4,6 +4,7 @@ import { useState } from "react";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../services/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import type { Offer } from "../types/products";
 
 const initialOfferForm = {
   offerTitle: "",
@@ -20,7 +21,7 @@ export const useOffer = () => {
   const [offerForm, setOfferForm] = useState(initialOfferForm);
   const user = useSelector((state: RootState) => state.auth.user);
 
-    const handleFileChange = (file: File | null) => {
+  const handleFileChange = (file: File | null) => {
     setOfferForm((prev) => ({ ...prev, offerImg: file }));
   };
 
@@ -33,17 +34,18 @@ export const useOffer = () => {
     }
 
     try {
-        let imageUrl = "";
-        if (offerForm.offerImg) {
-          const storageRef = ref(
-            storage,
-            `offers/${user.uid}/${offerForm.offerImg.name}`
-          );
-          await uploadBytes(storageRef, offerForm.offerImg);
-          imageUrl = await getDownloadURL(storageRef);
-        }
+      let imageUrl = "";
+      if (offerForm.offerImg) {
+        const storageRef = ref(
+          storage,
+          `offers/${user.uid}/${offerForm.offerImg.name}`
+        );
+        await uploadBytes(storageRef, offerForm.offerImg);
+        imageUrl = await getDownloadURL(storageRef);
+      }
 
-      const newOffer = {
+      const newOffer: Offer = {
+        restaurantId: user.uid,
         offerImg: imageUrl,
         offerTitle: offerForm.offerTitle,
         description: offerForm.description,
