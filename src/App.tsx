@@ -15,6 +15,8 @@ import { Analytics } from "./pages/Analytics";
 import { CreateOffer } from "./pages/CreateOffer";
 import { HistorySavings } from "./pages/HistorySavings";
 import { ProfileSeller } from "./pages/profileSeller";
+import { CurrentOrders } from "./pages/CurrentOrders";
+import { SellerOrder } from "./pages/SellerOrder";
 
 function App() {
   useAuthListener();
@@ -34,16 +36,11 @@ function App() {
           <Route element={<ProtectedRoute requiredRole="seller" />}>
             <Route path="/seller/analytics" element={<Analytics />} />
             <Route path="/seller/offer/createoffer" element={<CreateOffer />} />
-            <Route path="/seller/profile" element={<ProfileSeller/>} />
+            <Route path="/seller/profile" element={<ProfileSeller />} />
+            <Route path="/seller/currentorders" element={<CurrentOrders />} />
+            <Route path="/seller/order/:order" element={<SellerOrder />} />
           </Route>
 
-          {/* <Route path="/seller/analytics  " />
-          <Route path="/seller/offer" />
-          <Route path="/seller/offer/createoffer" />
-          <Route path="/seller/offer/editoffer/:offer" />
-          <Route path="/seller/currentorders" />
-          <Route path="/seller/orderinfo/:order" />
-          <Route path="/seller/settings" /> */}
 
           {/* Customer es el usario que va comprar  */}
 
@@ -56,15 +53,8 @@ function App() {
               path="/customer/history&savings"
               element={<HistorySavings />}
             />
-          <Route path="/customer/profile" element={<Profile />} />
+            <Route path="/customer/profile" element={<Profile />} />
           </Route>
-
-          {/* <Route path="/customer/home" element={<Home />} />
-          <Route path="/customer/:restaurant" element={<Restaurante />} />
-          <Route path="/customer/checkout" element={<Checkout />} />
-          <Route path="/customer/:order/confirmation" />
-          <Route path="/customer/:order/pickup" element={<Pickup />} />
-          <Route path="/customer/settings" /> */}
         </Routes>
       </Router>
     </>
