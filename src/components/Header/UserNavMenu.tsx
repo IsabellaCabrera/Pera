@@ -50,7 +50,7 @@ export const UserNavMenu = () => {
         : sellerNavItems.map(({ id, link, label }) => (
             <NavItems key={id} link={link} label={label} />
           ))}
-      <Link to={"/profile"}>
+      <Link to={user?.role === "seller" ? "/seller/profile" : "/customer/profile"}>
         <img
           className="w-8 h-8 rounded-full"
           src={user?.profileImg || "/avatar.png"}

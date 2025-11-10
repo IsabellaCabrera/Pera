@@ -14,6 +14,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Analytics } from "./pages/Analytics";
 import { CreateOffer } from "./pages/CreateOffer";
 import { HistorySavings } from "./pages/HistorySavings";
+import { ProfileSeller } from "./pages/profileSeller";
 
 function App() {
   useAuthListener();
@@ -33,7 +34,7 @@ function App() {
           <Route element={<ProtectedRoute requiredRole="seller" />}>
             <Route path="/seller/analytics" element={<Analytics />} />
             <Route path="/seller/offer/createoffer" element={<CreateOffer />} />
-            <Route path="/seller/settings" element={<div>Settings</div>} />
+            <Route path="/seller/profile" element={<ProfileSeller/>} />
           </Route>
 
           {/* <Route path="/seller/analytics  " />
@@ -55,7 +56,7 @@ function App() {
               path="/customer/history&savings"
               element={<HistorySavings />}
             />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/customer/profile" element={<Profile />} />
           </Route>
 
           {/* <Route path="/customer/home" element={<Home />} />

@@ -6,11 +6,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../services/firebaseConfig";
 import { useNavigate } from "react-router";
 import { NavBar } from "../components/Header/NavBar";
-import { EditCustomerProfileForm } from "../components/Forms/EditCustomerProfile";
 import type { UserData } from "../types/auth";
 import { clearCart } from "../redux/slices/productsSlice";
+import { EditSellerProfileForm } from "../components/Forms/EditSellerProfile";
 
-export const Profile = () => {
+export const ProfileSeller = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -43,7 +43,7 @@ export const Profile = () => {
         <p>{user?.name}</p>
         <p>{user?.email}</p>
           </div>
-      <EditCustomerProfileForm user={user as UserData} />
+      <EditSellerProfileForm user={user as UserData} />
       </main>
     </>
   );
