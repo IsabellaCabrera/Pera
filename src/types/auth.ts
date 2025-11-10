@@ -17,7 +17,7 @@ export interface Order {
 }
 
 export interface UserData {
-  uid?: string;
+  uid: string;
   email?: string;
   name?: string;
   phone?: string;

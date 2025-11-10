@@ -16,7 +16,7 @@ export const CreateOfferForm = () => {
       onSubmit={handleSubmit}
     >
       <div className="bg-azul flex items-center justify-center h-full w-full flex-1">
-        <UploadFile onChange={handleFileChange} />
+        <UploadFile white onChange={handleFileChange} />
       </div>
 
       <div className="w-full lg:w-1/2 p-10 flex flex-col gap-6">

@@ -13,7 +13,7 @@ const customerNavItems = [
   {
     id: crypto.randomUUID(),
     link: "customer/history&savings",
-    label: "history & savings",
+    label: "History & Savings",
   },
   {
     id: crypto.randomUUID(),
