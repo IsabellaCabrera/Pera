@@ -33,11 +33,6 @@ export const Checkout = () => {
     setSelectedPayment(payment);
   };
 
-  // const handlePay = () => {
-
-  //   dispatch(clearCart())
-  //   console.log("Processing payment...", { selectedPayment, selectedDonation });
-  // };
 
   const handlePay = async () => {
     if (!user?.uid) {
