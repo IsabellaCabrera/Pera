@@ -51,3 +51,8 @@ export interface AvailabilityProps {
   selectedHours: string[];
   onChange: (hours: string[]) => void;
 }
+
+export interface StatCardProps {
+  stat: string;
+  title: string;
+}
