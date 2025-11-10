@@ -1,4 +1,4 @@
-import type { UserData } from "./auth";
+import type { Order, UserData } from "./auth";
 
 export interface Offer {
   restaurantId: string | number;
@@ -16,6 +16,6 @@ export interface InitialState {
   restaurants: UserData[];
   restaurant: UserData;
   cart: Offer[];
-  orders: [];
+  order: Order;
   offers: [];
 }

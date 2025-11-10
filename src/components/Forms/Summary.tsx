@@ -28,9 +28,6 @@ export const Summary = ({
     return Number(subtotal + donationAmount).toFixed(2);
   };
 
-  // const formatPrice = (price: number): string => {
-  //   return `$${(price / 100).toLocaleString()}`;
-  // };
 
   const donationOptions = [
     { value: "2", label: "$2" },

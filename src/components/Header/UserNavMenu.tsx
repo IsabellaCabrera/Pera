@@ -33,7 +33,7 @@ const sellerNavItems = [
 
   {
     id: crypto.randomUUID(),
-    link: "seller/orders",
+    link: "seller/currentorders",
     label: "Orders",
   }
 ];

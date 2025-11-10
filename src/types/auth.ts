@@ -9,11 +9,11 @@ export interface Product {
 }
 
 export interface Order {
-  id: string;
-  restaurant: string;
+  orderId: string;
+  customerId: string;
+  customerName: string;
   total: number;
-  status: string;
-  createdAt: string;
+  items: Offer[];
 }
 
 export interface UserData {
@@ -28,7 +28,7 @@ export interface UserData {
   role?: string;
   availability?: AvailabilityItem[];
   products?: Product[];
-  orders?: Offer[];
+  orders?: Order[];
   offers?: Offer[];
 }
 

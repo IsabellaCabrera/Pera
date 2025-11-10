@@ -5,14 +5,15 @@
   --color-morado: #4741a6;
   --color-amarillo: #f9ce69;
   --color-tertiary: #cdcdcd;
-  --color-mainWhite: #FAF6F0;
-  --color-azul: #9BBBFC; 
-  --color-gray: #E9E7E7;
---color-card-gray : #F0EEEA;
+  --color-mainWhite: #faf6f0;
+  --color-azul: #9bbbfc;
+  --color-verde: #73bf27;
+  --color-cafe: #8a6c26;
+  --color-gray: #e9e7e7;
+  --color-card-gray: #f0eeea;
   --color-Darkgray500: #121712;
-  --color-Darkgray400: #292E29;
-  --color-Darkgray300: #585C58;
+  --color-Darkgray400: #292e29;
+  --color-Darkgray300: #585c58;
   --color-Darkgray200: #929292;
-  --color-LightGray100: #F2F0F0;
-
+  --color-LightGray100: #f2f0f0;
 }
