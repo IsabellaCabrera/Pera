@@ -14,6 +14,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
 import { setRestaurant } from "../redux/slices/productsSlice";
 import type { UserData } from "../types/auth";
+import { Map } from "../components/Map";
 
 const checkboxOptions = [
   {
@@ -34,7 +35,9 @@ const checkboxOptions = [
 ];
 
 export const Restaurante = () => {
-  const restaurant = useSelector((state: RootState) => state.products.restaurant);
+  const restaurant = useSelector(
+    (state: RootState) => state.products.restaurant
+  );
   const dispatch = useDispatch();
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -60,7 +63,7 @@ export const Restaurante = () => {
           const restaurantData: UserData = {
             id: docSnap.id,
             ...docSnap.data(),
-          } as UserData;
+          } as unknown as UserData;
 
           dispatch(setRestaurant(restaurantData));
         } else {
@@ -73,7 +76,6 @@ export const Restaurante = () => {
 
     fetchRestaurant();
   }, [params.restaurant, dispatch]);
-
 
   return (
     <>
@@ -129,9 +131,10 @@ export const Restaurante = () => {
               </div>
             </article>
 
-            <div className="w-full h-[250px] md:h-[450px] bg-amarillo md:mb-10 rounded-4xl text-center">
-              Map Coming soons
-            </div>
+            <Map
+              address={restaurant.address || ""}
+              markerTitle={restaurant.name || ""}
+            />
           </aside>
 
           <aside className="w-full px-6 md:px-0">
