@@ -1,96 +1,25 @@
-import { useState } from "react";
 import { ShoppingCard } from "../components/Cards/Shopping";
 import { Button } from "../components/Button";
 import { Summary } from "../components/Forms/Summary";
-import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
-import { clearCart, deleteFromCart } from "../redux/slices/productsSlice";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../services/firebaseConfig";
+import { Modal } from "../components/Modal";
+import { useCheckout } from "../hooks/useCheckout";
+import { deleteFromCart } from "../redux/slices/productsSlice";
 
 export const Checkout = () => {
-  const [selectedDonation, setSelectedDonation] = useState("2");
-  const [selectedPayment, setSelectedPayment] = useState("card");
-  const dispatch = useDispatch();
-
-  const user = useSelector((state: RootState) => state.auth.user);
-  const cart = useSelector((state: RootState) => state.products.cart);
-
-  console.log(cart);
-
-  const navigate = useNavigate();
-
-  const subtotal = Number(
-    cart.reduce((acc, offer) => acc + (offer.peraPrice || 0), 0).toFixed(2)
-  );
-
-  const handleDonationChange = (donation: string) => {
-    setSelectedDonation(donation);
-  };
-
-  const handlePaymentChange = (payment: string) => {
-    setSelectedPayment(payment);
-  };
-
-
-  const handlePay = async () => {
-    if (!user?.uid) {
-      console.error("⚠️ No hay usuario autenticado.");
-      return;
-    }
-
-    try {
-      const userRef = doc(db, "users", user.uid);
-
-      //  Guardar orden en el usuario
-
-      const newOrder = {
-        orderId: crypto.randomUUID(),
-        items: cart,
-      };
-
-      await updateDoc(userRef, {
-        orders: arrayUnion(newOrder),
-      });
-
-      // Agrupar items por restaurante
-      const groupedByRestaurant = cart.reduce((acc, item) => {
-        const restaurantId = item.restaurantId;
-        if (!acc[restaurantId]) acc[restaurantId] = [];
-        acc[restaurantId].push(item);
-        return acc;
-      }, {} as Record<string, typeof cart>);
-
-      // Crear una orden en cada restaurante
-      for (const [restaurantId, items] of Object.entries(groupedByRestaurant)) {
-        const total = Number(
-          items
-            .reduce((acc, offer) => acc + (offer.peraPrice || 0), 0)
-            .toFixed(2)
-        );
-
-        const restaurantRef = doc(db, "users", restaurantId);
-        const restaurantOrder = {
-          orderId: crypto.randomUUID(),
-          customerId: user.uid,
-          customerName: user.name,
-          items,
-          total,
-          createdAt: new Date().toISOString(),
-        };
-
-        await updateDoc(restaurantRef, {
-          orders: arrayUnion(restaurantOrder),
-        });
-      }
-
-      console.log("✅ Orden guardada en usuario y restaurantes.");
-      dispatch(clearCart());
-    } catch (error) {
-      console.error("❌ Error al guardar orden:", error);
-    }
-  };
+  const {
+    cart,
+    subtotal,
+    selectedDonation,
+    selectedPayment,
+    orderId,
+    handleDonationChange,
+    handlePaymentChange,
+    handlePay,
+    open,
+    handleModal,
+    navigate,
+    dispatch,
+  } = useCheckout();
 
   return (
     <section className="py-9 px-12">
@@ -131,6 +60,34 @@ export const Checkout = () => {
           />
         </div>
       </div>
+      {open && (
+        <Modal open={open} onClose={handleModal}>
+          <div className="flex flex-col items-center justify-center gap-4">
+            <h2 className="text-4xl font-bold text-morado">
+              Payment succesful!
+            </h2>
+            <img className="max-w-[330px]" src="/default.png" alt="Img" />
+            <div className="flex flex-col gap-1.5">
+              <h3 className="text-xl font-bold text-Darkgray300">
+                Thank you for your order
+              </h3>
+              <p className="text-Darkgray200">
+                Your payment of <strong>${subtotal}</strong> was succesful,
+                we’ll be waiting for you to pick your food up.
+              </p>
+              <h3 className="text-3xl font-bold text-morado mb-4">
+                Order ID: {orderId}
+              </h3>
+              <Button
+                className="self-center"
+                onClick={() => navigate("/customer/order/pickup")}
+              >
+                View pickup guide
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </section>
   );
 };
