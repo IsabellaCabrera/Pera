@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import type { SummaryProps } from "../../types/summary";
 import { RadioGroup } from "../Inputs/RadioGroup";
 import { Button } from "../Button";
@@ -11,7 +10,6 @@ export const Summary = ({
   onPaymentChange,
   onPay,
 }: SummaryProps) => {
-  const navigate = useNavigate();
 
   const calculateTotal = () => {
     let donationAmount = 0;
@@ -81,7 +79,6 @@ export const Summary = ({
         disabled={subtotal === 0}
         onClick={() => {
           onPay();
-          navigate("/customer/order/pickup");
         }}
       >
         Pay
