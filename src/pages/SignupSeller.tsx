@@ -4,6 +4,7 @@ import { useSellerSignup } from "../hooks/useSignup";
 import { useForm } from "../hooks/useForm";
 import { Input } from "../components/Input";
 import { Availability } from "../components/Cards/Availability";
+import { Map } from "../components/Map";
 
 export const SignUpSeller = () => {
   const {
@@ -16,6 +17,8 @@ export const SignUpSeller = () => {
     handleAvailabilityChange,
   } = useSellerSignup();
   const { handleForm } = useForm<typeof registerSellerForm>();
+
+
 
   return (
     <main className="my-16 mx-6 md:mx-24 lg:mx-36 xl:mx-auto flex flex-col gap-8 max-w-7xl">
@@ -130,9 +133,7 @@ export const SignUpSeller = () => {
                 handleForm(e, setRegisterSellerForm, registerSellerForm)
               }
             />
-            <div className="w-full h-[360px] flex items-center justify-center bg-azul/40 rounded-3xl">
-              <p className="text-mainWhite text-xl font-bold">Map Soon</p>
-            </div>
+          <Map address={registerSellerForm.address} markerTitle={registerSellerForm.businessName}/>
           </>
         ) : (
           <section className="w-full grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
