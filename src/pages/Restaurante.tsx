@@ -40,6 +40,7 @@ export const Restaurante = () => {
   );
   const dispatch = useDispatch();
   const [selected, setSelected] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
 
   const params = useParams();
 
@@ -48,6 +49,10 @@ export const Restaurante = () => {
       isChecked ? [...prev, id] : prev.filter((item) => item !== id)
     );
   };
+
+  const filteredOffers = restaurant.offers?.filter((offer) =>
+    offer.offerTitle.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -142,6 +147,8 @@ export const Restaurante = () => {
               type="search"
               name="search-food"
               placeholder="Search by food names"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <div className=" mt-4 mb-10 flex flex-wrap gap-2">
               {checkboxOptions.map(({ id, label, img }) => (
@@ -156,11 +163,10 @@ export const Restaurante = () => {
               ))}
             </div>
             <div className="pb-6 grid grid-cols-1 lg:grid-cols-2 gap-y-12 md:gap-y-6 gap-x-6 md:gap-x-12 md:max-h-[700px] overflow-auto pr-2">
-              {restaurant.offers === undefined ||
-              restaurant.offers.length === 0 ? (
-                <p className="">No offers yet</p>
+              {filteredOffers?.length === 0 ? (
+                <p>No offers found</p>
               ) : (
-                restaurant.offers?.map((offer) => (
+                filteredOffers?.map((offer) => (
                   <ProductCard key={offer.offerTitle} offer={offer} />
                 ))
               )}
