@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
-import { clearCart } from "../redux/slices/productsSlice";
 import { useNavigate } from "react-router";
 
 export const useCheckout = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState("2");
   const [selectedPayment, setSelectedPayment] = useState("card");
   const [orderId, setOrderId] = useState("");
@@ -34,7 +33,7 @@ export const useCheckout = () => {
 
   const generateOrderId = () => {
     const number = Math.floor(1000 + Math.random() * 9000);
-    return `#${number}i`;
+    return `${number}`;
   };
 
   const handleModal = () => {
@@ -57,7 +56,7 @@ export const useCheckout = () => {
       //  Guardar orden en el usuario
 
       const newOrder = {
-        orderId: crypto.randomUUID(),
+        orderId: tempOrderId,
         items: cart,
       };
 
@@ -84,6 +83,8 @@ export const useCheckout = () => {
         const restaurantRef = doc(db, "users", restaurantId);
         const restaurantOrder = {
           orderId: crypto.randomUUID(),
+          orderCode: tempOrderId,
+          status: "preparing",
           customerId: user.uid,
           customerName: user.name,
           items,
@@ -97,7 +98,6 @@ export const useCheckout = () => {
       }
 
       console.log("✅ Orden guardada en usuario y restaurantes.");
-      dispatch(clearCart());
     } catch (error) {
       console.error("❌ Error al guardar orden:", error);
     }
@@ -116,6 +116,6 @@ export const useCheckout = () => {
     subtotal,
     handleDonationChange,
     handlePaymentChange,
-    handlePay
+    handlePay,
   };
 };
