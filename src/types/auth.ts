@@ -10,10 +10,13 @@ export interface Product {
 
 export interface Order {
   orderId: string;
+  orderCode: string;
+  status: "preparing" | "ready";
   customerId: string;
   customerName: string;
   total: number;
   items: Offer[];
+  createdAt? : string;
 }
 
 export interface UserData {
