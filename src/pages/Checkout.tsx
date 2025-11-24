@@ -3,7 +3,7 @@ import { Button } from "../components/Button";
 import { Summary } from "../components/Forms/Summary";
 import { Modal } from "../components/Modal";
 import { useCheckout } from "../hooks/useCheckout";
-import { deleteFromCart } from "../redux/slices/productsSlice";
+import { clearCart, deleteFromCart } from "../redux/slices/productsSlice";
 
 export const Checkout = () => {
   const {
@@ -76,11 +76,14 @@ export const Checkout = () => {
                 we’ll be waiting for you to pick your food up.
               </p>
               <h3 className="text-3xl font-bold text-morado mb-4">
-                Order ID: {orderId}
+                Order ID: #{orderId}i
               </h3>
               <Button
                 className="self-center"
-                onClick={() => navigate("/customer/order/pickup")}
+                onClick={() => {
+                  navigate(`/customer/order/${orderId}/pickup`);
+                  dispatch(clearCart());
+                }}
               >
                 View pickup guide
               </Button>

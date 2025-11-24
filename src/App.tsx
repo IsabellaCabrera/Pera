@@ -41,14 +41,17 @@ function App() {
             <Route path="/seller/order/:order" element={<SellerOrder />} />
           </Route>
 
-
           {/* Customer es el usario que va comprar  */}
 
           <Route element={<ProtectedRoute requiredRole="customer" />}>
             <Route path="/customer/home" element={<Home />} />
             <Route path="/customer/:restaurant" element={<Restaurante />} />
             <Route path="/customer/checkout" element={<Checkout />} />
-            <Route path="/customer/:order/pickup" element={<Pickup />} />
+            <Route
+              path="/customer/order/:orderId/pickup"
+              element={<Pickup />}
+            />
+
             <Route
               path="/customer/history&savings"
               element={<HistorySavings />}
