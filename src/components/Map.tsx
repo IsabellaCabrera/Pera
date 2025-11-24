@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 import type { MapProps } from "../types/map";
 import { Loader } from "./Loader/Loader";
 
-//dseclare const google: typeof import("google.maps");
 
 export const Map = ({ address, markerTitle }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -16,16 +15,16 @@ export const Map = ({ address, markerTitle }: MapProps) => {
       const { AdvancedMarkerElement } = await importLibrary("marker");
       await importLibrary("core");
 
-      const geocoder = new google.maps.Geocoder();
+      const geocoder = new window.google.maps.Geocoder();
 
       geocoder.geocode(
         { address },
         (
-          results: google.maps.GeocoderResult[] | null,
-          status: google.maps.GeocoderStatus
-        ) => {
+          results: string | any[],
+          status: any
+        ): void => {
           if (
-            status === google.maps.GeocoderStatus.OK &&
+            status === window.google.maps.GeocoderStatus.OK &&
             results &&
             results.length > 0
           ) {
