@@ -20,7 +20,7 @@ export const NavBar = () => {
 
   return (
     <header className="flex items-center justify-between px-10 py-3 bg-mainWhite rounded-b-3xl border-b border-blue">
-      <img src="/public/Pera-morado.svg" alt="Pera Logo" />
+      <img src="/Pera-morado.svg" alt="Pera Logo" />
       <nav>
         <ul className="flex items-center gap-2">
           {page === "user" ? <UserNavMenu /> : <LandingNavMenu />}
