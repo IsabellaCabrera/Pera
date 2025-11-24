@@ -1,6 +1,3 @@
-import type { ComponentProps } from "react";
-import type { Rating } from "../components/Tags/Rating";
-import type { Add } from "../components/Add";
 import type { UserData } from "./auth";
 import type { Offer } from "./products";
 
