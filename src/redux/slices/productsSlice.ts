@@ -9,6 +9,8 @@ const initialState: InitialState = {
   },
   cart: [],
   order: {
+    status: "preparing",
+    orderCode: "",
     orderId: "",
     customerId: "",
     customerName: "",
@@ -44,6 +46,8 @@ const productsSlice = createSlice({
     },
     clearOrder: (state) => {
       state.order = {
+        status: "preparing",
+        orderCode: "",
         orderId: "",
         customerId: "",
         customerName: "",
