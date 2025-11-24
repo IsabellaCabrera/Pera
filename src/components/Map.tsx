@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import type { MapProps } from "../types/map";
 import { Loader } from "./Loader/Loader";
 
-declare const google: typeof import("google.maps");
+//dseclare const google: typeof import("google.maps");
 
 export const Map = ({ address, markerTitle }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
