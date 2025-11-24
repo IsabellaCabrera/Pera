@@ -40,22 +40,34 @@ const stats = [
   },
 ];
 
-const revenueData = [
-  { name: "Week 1", revenue: 400 },
-  { name: "Week 2", revenue: 300 },
-  { name: "Week 3", revenue: 600 },
-  { name: "Week 4", revenue: 350 },
-];
-
-const ordersData = [
-  { name: "Bakery", orders: 40 },
-  { name: "Produce", orders: 35 },
-  { name: "Dairy", orders: 30 },
-  { name: "Meat", orders: 45 },
-];
-
 export const Analytics = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+
+  console.log(user?.orders);
+
+  const totalRevenue =
+    user?.orders?.reduce((acc, order) => acc + order.total, 0) ?? 0;
+
+  const revenueData =
+    user?.orders?.map((order) => ({
+      name: `Order  #${order.orderCode}`,
+      revenue: order.total,
+    })) ?? [];
+
+  const allItems = user?.orders?.flatMap((order) => order.items);
+
+  const itemsCountMap = allItems?.reduce((items, item) => {
+    const key = item.offerTitle;
+    items[key] = (items[key] || 0) + 1;
+    return items;
+  }, {} as Record<string, number>);
+
+  const ordersData = Object.entries(itemsCountMap ?? {}).map(
+    ([name, orders]) => ({
+      name,
+      orders,
+    })
+  );
   return (
     <>
       <NavBar />
@@ -83,9 +95,9 @@ export const Analytics = () => {
           <div className="border border-azul rounded-xl">
             <div className="p-4 border border-gray-200 rounded-xl ">
               <h3 className="font-semibold text-gray-800 mb-1">
-                Revenue Trend
+                Revenue by Order
               </h3>
-              <p className="text-3xl font-bold">$2,500</p>
+              <p className="text-3xl font-bold">${totalRevenue}</p>
               <p className="text-sm text-gray-500 mb-4">
                 Last 30 Days{" "}
                 <span className="text-morado font-semibold">+10%</span>
@@ -115,9 +127,9 @@ export const Analytics = () => {
           <div className="border border-azul rounded-xl">
             <div className="p-4 border border-gray-200 rounded-xl">
               <h3 className="font-semibold text-gray-800 mb-1">
-                Orders by Category
+                Items by Orders
               </h3>
-              <p className="text-3xl font-bold">150</p>
+              <p className="text-3xl font-bold">{user?.orders?.length}</p>
               <p className="text-sm text-gray-500 mb-4">
                 Last 30 Days{" "}
                 <span className="text-morado font-semibold">+5%</span>
@@ -142,7 +154,7 @@ export const Analytics = () => {
           </div>
 
           {/* Ofertas */}
-         
+
           <div className="flex flex-col gap-4 py-2.5 px-4 bg-gray rounded-xl">
             <div className="flex items-center justify-between gap-3">
               <h3 className="font-bold text-2xl text-morado">Your Offers</h3>
@@ -152,7 +164,7 @@ export const Analytics = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {user?.offers?.map((offer) => (
-            <OrderCard offer={offer}/>
+                <OrderCard offer={offer} />
               ))}
             </div>
           </div>
