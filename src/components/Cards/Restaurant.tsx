@@ -2,7 +2,7 @@ import type { RestaurantCardProps } from "../../types/cards";
 
 export const RestaurantCard = ({ img, restaurant, whiteVariant }: RestaurantCardProps) => {
   return (
-    <article>
+    <article className="cursor-pointer">
       <figure className="flex flex-col gap-2 items-center justify-center">
         <div
         style={{backgroundImage : `url(${img})`}}
