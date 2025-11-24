@@ -4,11 +4,47 @@ import { Button } from "../components/Button";
 import { useNavigate } from "react-router";
 import { ShoppingCard } from "../components/Cards/Shopping";
 import { Input } from "../components/Input";
+import { Status } from "../components/Tags/Status";
+import { useState } from "react";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../services/firebaseConfig";
+import type { Order } from "../types/auth";
 
 export const SellerOrder = () => {
+  const [code, setCode] = useState("");
+  const user = useSelector((state: RootState) => state.auth.user);
   const order = useSelector((state: RootState) => state.products.order);
   console.log(order);
   const navigate = useNavigate();
+
+  const handleValidation = async () => {
+    if (!order || !order.orderId) return;
+
+    if (code.trim() !== order.orderCode) {
+      alert("❌ Incorrect code");
+      return;
+    }
+
+    try {
+      if (!user?.uid) return;
+      const sellerRef = doc(db, "users", user?.uid);
+      const sellerSnap = await getDoc(sellerRef);
+      const sellerData = sellerSnap.data();
+
+      const updatedOrder = (sellerData?.orders || []).map((o: Order) =>
+        o.orderId === order.orderId ? { ...o, status: "ready" } : o
+      );
+
+      await updateDoc(sellerRef, { orders: updatedOrder });
+
+      alert("✅ Order marked as READY!");
+
+      navigate("/seller/currentorders");
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      alert("Failed to update order");
+    }
+  };
 
   return (
     <section className="py-9 px-12">
@@ -54,20 +90,40 @@ export const SellerOrder = () => {
                 14:00 PM - 16:00 PM
               </p>
             </div>
+            <div className="flex justify-between items-center pb-4 border-b border-gray">
+              <span className="text-gray-600 font-semibold">Status</span>
+              <Status
+                pickup={order.status === "preparing"}
+                ready={order.status === "ready"}
+              />
+            </div>
 
             <div className="flex justify-between items-center pb-4 border-b border-gray">
               <span className="text-gray-600 font-semibold">Subtotal</span>
               <span className="font-semibold text-lg">${order.total}</span>
             </div>
 
-            <div className="flex flex-col justify-end gap-4 pb-4 border-b border-gray h-40">
+            <div
+              className={`${
+                order.status === "ready" ? "hidden" : "block"
+              } flex flex-col justify-end gap-4 pb-4 border-b border-gray h-40`}
+            >
               <p className="text-morado font-semibold">Pickup validation</p>
-              <Input
-              label=""
-              name="code"
-              placeholder="Enter code"
-              type="text"
-              />
+              <div className="flex items-center gap-2 md:max-w-1/2 xl:max-w-1/3">
+                <div className="cursor-default bg-morado/65 text-mainWhite py-2 px-4  rounded-md">
+                  #
+                </div>
+                <Input
+                  label=""
+                  name="code"
+                  placeholder="Enter code"
+                  type="text"
+                  onChange={(e) => setCode(e.target.value)}
+                />
+                <div className="cursor-default bg-morado/65 text-mainWhite py-2 px-4  rounded-md">
+                  i
+                </div>
+              </div>
             </div>
 
             <div className=" pt-4 mb-6">
@@ -76,14 +132,11 @@ export const SellerOrder = () => {
                 <span className="text-xl font-bold">${order.total}</span>
               </div>
             </div>
-
-            <Button
-              onClick={() => {
-                navigate("/seller/currentorders");
-              }}
+            <div
+              className={` ${order.status === "ready" ? "hidden" : " block"}`}
             >
-              Validate Code
-            </Button>
+              <Button onClick={handleValidation}>Validate Code</Button>
+            </div>
           </aside>
         </div>
       </div>

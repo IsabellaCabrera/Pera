@@ -1,8 +1,8 @@
 import { Link } from "react-router";
-import { Status } from "../Tags/status";
 import type { Order } from "../../types/auth";
 import { useDispatch } from "react-redux";
 import { setOrder } from "../../redux/slices/productsSlice";
+import { Status } from "../Tags/Status";
 
 export const SellerOrderCard = ({
   order,
@@ -20,7 +20,7 @@ export const SellerOrderCard = ({
     >
       <article className="flex flex-col gap-3 p-3 bg-white rounded-2xl">
         <div className="w-full pb-2 border-b border-gray">
-          <Status ready />
+          <Status ready={order.status !== "preparing"} />
         </div>
         <img src="/defaultFoodImg.webp" alt="Order" />
         <div className="flex flex-col gap-1 text-morado">
